@@ -16,6 +16,7 @@
     "typescript": "^5.4.5"
   },
   "scripts": {
+    "preinstall": "nvm use",
     "start": "tsc && node dist/list-groups.js",
     "test": "jest"
   }
