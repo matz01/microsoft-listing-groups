@@ -1,4 +1,3 @@
-# microsoft-listing-groups
 a NODE application which processes data from the Microsoft Graph API.
 
 The app obtains an access token from Azure Active Directory using the tenant ID, 
