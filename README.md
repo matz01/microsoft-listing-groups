@@ -22,9 +22,7 @@ npm install
 CLIENT_ID=<YOUR_CLIENT_ID>
 CLIENT_SECRET=<YOUR_CLIENT_SECRET>
 TENANT_ID=<YOUR_TENANT_ID>
-FOLDER_NAME=json
 ```
-***Note: YOUR_FOLDER_NAME is the folder where the json files will be stored.***
 
 **3) Start the application**
 ```shell
