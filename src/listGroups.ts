@@ -1,5 +1,19 @@
-const listGroups = async () => {
+import { createDirectory } from "./utils";
+import { getGroupsFromApi } from "./getGroupsFromApi";
 
-}
+const jsonFolder = "MSGraph/Groups";
 
-listGroups().then(() => console.log('process completed'))
+export const listGroups = async () => {
+  try {
+    const result = await getGroupsFromApi();
+    if (result !== undefined) {
+      createDirectory(jsonFolder);
+    }
+  } catch (e) {
+    throw e;
+  }
+};
+
+listGroups()
+  .then(() => console.log("process completed"))
+  .catch((e) => console.error(e));

@@ -5,5 +5,5 @@ export const createDirectory = (dir: string) => {
       fs.rmSync(dir, { recursive: true, force: true });
       return;
     }
-    fs.mkdirSync(dir);
+    fs.mkdirSync(dir, { recursive: true });
 };
