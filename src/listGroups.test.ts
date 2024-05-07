@@ -37,7 +37,7 @@ describe("listGroups", () => {
     jest
       .spyOn(getGroupsFromApiModule, "getGroupsFromApi")
       .mockImplementation(() => Promise.reject(new Error("123")));
-    await expect(listGroups()).rejects.toThrow("123");
+    await expect(listGroups().then()).rejects.toThrow("123");
   });
 
   it("should handle the response and call the method save json for each group", async () => {
@@ -57,19 +57,20 @@ describe("listGroups", () => {
           },
         ]),
       );
-    const saveJsonFileSpy = jest.spyOn(saveJsonFileModule, "saveJsonFile");
-    await listGroups();
-    expect(saveJsonFileSpy).toHaveBeenCalledTimes(2);
-    expect(log.mock.calls[0][0]).toEqual(
-      "1 - MSGraph/Groups/file-name-a.json",
-    );
-    expect(log.mock.calls[1][0]).toEqual(
-      "2 - MSGraph/Groups/file-name-b.json",
-    );
-    expect(log.mock.calls[3][0]).toEqual('2 groups stored in MSGraph/Groups');
+    const mockSaveFunction = jest
+      .fn()
+      .mockImplementation(() => 'MSGraph/Groups/file-name.json');
+    jest
+      .spyOn(saveJsonFileModule, "saveJsonFile")
+      .mockImplementation(() => mockSaveFunction);
+    await listGroups().then();
+    expect(mockSaveFunction).toHaveBeenCalledTimes(2);
+    expect(log.mock.calls[0][0]).toEqual("1 - MSGraph/Groups/file-name.json");
+    expect(log.mock.calls[1][0]).toEqual("2 - MSGraph/Groups/file-name.json");
+    expect(log.mock.calls[3][0]).toEqual("2 groups stored in MSGraph/Groups");
   });
 
-  it("should handle errors", async () => {
+  it("should handle errors from saveJsonFile, showing only stored groups name", async () => {
     const myGroup = mock<Group>();
     const log = jest.spyOn(console, "log").mockImplementation(() => {});
     jest
@@ -80,7 +81,6 @@ describe("listGroups", () => {
             ...myGroup,
             mailNickname: undefined,
             displayName: undefined,
-
           },
           {
             ...myGroup,
@@ -88,13 +88,17 @@ describe("listGroups", () => {
           },
         ]),
       );
-    const saveJsonFileSpy = jest.spyOn(saveJsonFileModule, "saveJsonFile");
-    await listGroups();
-    expect(saveJsonFileSpy).toHaveBeenCalledTimes(2);
-    expect(log.mock.calls[0][0]).toEqual("error: TypeError: Cannot read properties of undefined (reading 'toLowerCase')");
-    expect(log.mock.calls[1][0]).toEqual(
-      "1 - MSGraph/Groups/file-name-b.json",
-    );
-    expect(log.mock.calls[3][0]).toEqual('1 groups stored in MSGraph/Groups');
+    const mockSaveFunction = jest
+      .fn()
+      .mockImplementationOnce(() => 'MSGraph/Groups/file-name.json')
+      .mockImplementationOnce(() => false)
+    jest
+      .spyOn(saveJsonFileModule, "saveJsonFile")
+      .mockImplementation(() => mockSaveFunction);
+    await listGroups().then();
+    expect(mockSaveFunction).toHaveBeenCalledTimes(2);
+
+    expect(log.mock.calls[0][0]).toEqual("1 - MSGraph/Groups/file-name.json");
+    expect(log.mock.calls[2][0]).toEqual("1 groups stored in MSGraph/Groups");
   });
 });

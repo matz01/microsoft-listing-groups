@@ -3,7 +3,7 @@ import path from "path";
 import { fileNameByGroupData } from "./fileNameByGroupData";
 import { Group } from "../types";
 
-export const saveJsonFile = (group: Group, dir: string) => {
+export const saveJsonFile = (dir: string) => (group: Group) => {
   try {
     const filePath = fileNameByGroupData(group);
     const fullPath = path.join(dir, `${filePath}.json`);
