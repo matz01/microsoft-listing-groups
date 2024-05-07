@@ -1,5 +1,6 @@
 import * as getGroupsFromApiModule from "./getGroupsFromApi";
 import * as saveJsonFileModule from "./utils/saveJsonFile";
+import * as logModule from "./utils/log";
 import { listGroups } from "./listGroups";
 import fs from "fs";
 import { mock } from "ts-jest-mocker";
@@ -42,7 +43,7 @@ describe("listGroups", () => {
 
   it("should handle the response and call the method save json for each group", async () => {
     const myGroup = mock<Group>();
-    const log = jest.spyOn(console, "log").mockImplementation(() => {});
+    const log = jest.spyOn(logModule, "log").mockImplementation(() => {});
     jest
       .spyOn(getGroupsFromApiModule, "getGroupsFromApi")
       .mockImplementation(() =>
@@ -72,7 +73,7 @@ describe("listGroups", () => {
 
   it("should handle errors from saveJsonFile, showing only stored groups name", async () => {
     const myGroup = mock<Group>();
-    const log = jest.spyOn(console, "log").mockImplementation(() => {});
+    const log = jest.spyOn(logModule, "log").mockImplementation(() => {});
     jest
       .spyOn(getGroupsFromApiModule, "getGroupsFromApi")
       .mockImplementation(() =>
