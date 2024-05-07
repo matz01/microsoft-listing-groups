@@ -1,7 +1,8 @@
 import { getGroupsFromApi } from "./getGroupsFromApi";
-import {createDirectory} from "./utils/createDirectory";
-import {saveJsonFile} from "./utils/saveJsonFile";
-import {Group} from "./types";
+import { createDirectory } from "./utils/createDirectory";
+import { saveJsonFile } from "./utils/saveJsonFile";
+import { Group } from "./types";
+import {logStoredFilesName} from "./utils/logStoredFilesName";
 
 const jsonFolder = "MSGraph/Groups";
 
@@ -13,8 +14,10 @@ export const listGroups = async () => {
       return;
     }
     createDirectory(jsonFolder);
-    const results = groups.map((group: Group) => saveJsonFile(group, jsonFolder));
-    console.log(results)
+    const results = groups
+      .map((group: Group) => saveJsonFile(group, jsonFolder)).filter(Boolean);
+    logStoredFilesName(results);
+    console.log('\n');
     console.log(`${results.length} groups stored in ${jsonFolder}`);
   } catch (e) {
     throw e;
