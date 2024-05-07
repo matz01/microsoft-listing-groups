@@ -1,11 +1,10 @@
 import dotenv from "dotenv";
-import {Client} from "@microsoft/microsoft-graph-client";
-import {
-  TokenCredentialAuthenticationProvider
-} from "@microsoft/microsoft-graph-client/authProviders/azureTokenCredentials";
-import {ClientSecretCredential} from "@azure/identity";
+import { Client } from "@microsoft/microsoft-graph-client";
+import { TokenCredentialAuthenticationProvider } from "@microsoft/microsoft-graph-client/authProviders/azureTokenCredentials";
+import { ClientSecretCredential } from "@azure/identity";
 
 dotenv.config();
+dotenv.config({ path: `.env.local`, override: true });
 
 const credential = new ClientSecretCredential(
   process.env.TENANT_ID as string,
@@ -14,7 +13,7 @@ const credential = new ClientSecretCredential(
 );
 
 const authProvider = new TokenCredentialAuthenticationProvider(credential, {
-  scopes: ['https://graph.microsoft.com/.default'],
+  scopes: ["https://graph.microsoft.com/.default"],
 });
 
 const client = Client.initWithMiddleware({ authProvider: authProvider });
@@ -22,7 +21,7 @@ const client = Client.initWithMiddleware({ authProvider: authProvider });
 export const getGroupsFromApi = async () => {
   try {
     const result = await client.api("/groups").get();
-    return result?.value
+    return result?.value;
   } catch (e) {
     throw e;
   }
