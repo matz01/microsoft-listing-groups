@@ -15,7 +15,7 @@
     "typescript": "^5.4.5"
   },
   "scripts": {
-    "start": "tsc && node dist/listGroups.js",
+    "start": "tsc && node dist/runMethod.js",
     "test": "jest"
   }
 }

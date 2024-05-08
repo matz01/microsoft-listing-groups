@@ -1,6 +1,6 @@
 import {fileNameByGroupData} from "./fileNameByGroupData";
 import { mock } from "ts-jest-mocker";
-import {Group} from "../types";
+import {Group} from "./types";
 
 describe("convertDisplayNameToFileName", () => {
   const myGroup = mock<Group>();

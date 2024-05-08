@@ -1,3 +1,3 @@
 import {listGroups} from "./listGroups";
 
-listGroups().then();
+listGroups(10).then();

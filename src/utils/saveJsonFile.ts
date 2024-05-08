@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { fileNameByGroupData } from "./fileNameByGroupData";
-import { Group } from "../types";
+import { Group } from "./types";
 import { error } from "./error";
 
 export const saveJsonFile = (dir: string) => (group: Group) => {

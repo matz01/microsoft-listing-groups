@@ -1,10 +1,10 @@
-import * as getGroupsFromApiModule from "./getGroupsFromApi";
+import * as getGroupsFromApiModule from "./utils/getGroupsFromApi";
 import * as saveJsonFileModule from "./utils/saveJsonFile";
 import * as logModule from "./utils/log";
 import { listGroups } from "./listGroups";
 import fs from "fs";
 import { mock } from "ts-jest-mocker";
-import { Group } from "./types";
+import { Group } from "./utils/types";
 
 jest.mock("@azure/identity", () => {
   return {
@@ -66,9 +66,9 @@ describe("listGroups", () => {
       .mockImplementation(() => mockSaveFunction);
     await listGroups().then();
     expect(mockSaveFunction).toHaveBeenCalledTimes(2);
-    expect(log.mock.calls[0][0]).toEqual("1 - MSGraph/Groups/file-name.json");
-    expect(log.mock.calls[1][0]).toEqual("2 - MSGraph/Groups/file-name.json");
-    expect(log.mock.calls[3][0]).toEqual("2 groups stored in MSGraph/Groups");
+    expect(log.mock.calls[0][0]).toEqual("2 groups stored in MSGraph/Groups");
+    expect(log.mock.calls[2][0]).toEqual("1 - MSGraph/Groups/file-name.json");
+    expect(log.mock.calls[3][0]).toEqual("2 - MSGraph/Groups/file-name.json");
   });
 
   it("should handle errors from saveJsonFile, showing only stored groups name", async () => {
@@ -99,7 +99,7 @@ describe("listGroups", () => {
     await listGroups().then();
     expect(mockSaveFunction).toHaveBeenCalledTimes(2);
 
-    expect(log.mock.calls[0][0]).toEqual("1 - MSGraph/Groups/file-name.json");
-    expect(log.mock.calls[2][0]).toEqual("1 groups stored in MSGraph/Groups");
+    expect(log.mock.calls[0][0]).toEqual("1 groups stored in MSGraph/Groups");
+    expect(log.mock.calls[2][0]).toEqual("1 - MSGraph/Groups/file-name.json");
   });
 });

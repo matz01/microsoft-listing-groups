@@ -1,4 +1,4 @@
-import {Group} from "../types";
+import {Group} from "./types";
 
 export const fileNameByGroupData = (group: Group): string => {
   try {
