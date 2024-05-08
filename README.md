@@ -1,4 +1,4 @@
-a NODE application which processes data from the Microsoft Graph API.
+A NODE application which processes data from the Microsoft Graph API.
 
 The app obtains an access token from Azure Active Directory using the tenant ID, 
 client ID, and client secret (stored in the.env file).  
@@ -7,6 +7,7 @@ Then it will:
 - For each group returned by the API, it stores a JSON file in a local directory structured as follows:
 ```/MSGraph/Groups/{group name}.json```
 - Output the location and count of the stored groups to the console.
+- The application displays paginated results. The number of results depends on the value passed to the **listGroups** method (0 for disabling pagination)
 
 ## Prerequisites:
 - Node >= v20.10.0
